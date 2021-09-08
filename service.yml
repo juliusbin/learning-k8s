@@ -3,9 +3,10 @@ kind: Service
 metadata:
   name: nginx-service
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 9200
       targetPort: 80
+      nodePort: 31000
   selector:
     app: webapp
