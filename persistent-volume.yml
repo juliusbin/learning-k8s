@@ -26,3 +26,55 @@ spec:
       storage: 1Gi
   accessModes:
     - ReadWriteOnce
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv-deploy1
+spec:
+  selector:
+    matchLabels:
+      app: pv
+  template:
+    metadata:
+      labels:
+        app: pv
+    spec:
+      volumes:
+        - name: pv-storage
+          persistentVolumeClaim:
+            claimName: pvc-vol
+      containers:
+         - name: n1
+           image: nginx
+           ports:
+             - containerPort: 80
+           volumeMounts:
+              - name: pv-storage
+                mountPath: /usr/share/nginx/html
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pv-deploy2
+spec:
+  selector:
+    matchLabels:
+      app: pv2
+  template:
+    metadata:
+      labels:
+        app: pv2
+    spec:
+      volumes:
+        - name: pv-storage2
+          persistentVolumeClaim:
+            claimName: pvc-vol
+      containers:
+         - name: n1
+           image: nginx
+           ports:
+             - containerPort: 80
+           volumeMounts:
+              - name: pv-storage2
+                mountPath: /usr/share/nginx/html
