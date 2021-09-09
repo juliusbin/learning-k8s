@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vols-deploy
+spec:
+ selector:
+   matchLabels:
+     apps: vols
+ template:
+   metadata:
+     labels:
+       apps: vols
+   spec:
+     volumes:
+       - name: shared-data
+         emptyDir: {}
+     containers:
+       - name: n1
+         image: nginx
+         ports:
+           - containerPort: 80
+         volumeMounts:
+           - name: shared-data
+             mountPath: /usr/share/nginx/html
+       - name: n2
+         image: debian
+         command: ["/bin/sh"]
+         args:
+           - "-c"
+           - >
+             while true; do
+                echo Hello from second container;
+                sleep 20;
+             done
+         volumeMounts:
+           - name: shared-data
+             mountPath: /pod-data
+
+
