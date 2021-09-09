@@ -29,6 +29,7 @@ spec:
            - "-c"
            - >
              while true; do
+                date >> /pod-data/index.html
                 echo Hello from second container;
                 sleep 20;
              done
