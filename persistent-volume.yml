@@ -12,3 +12,17 @@ spec:
     storage: 1Gi
   accessModes:
     - ReadWriteOnce
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-vol
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
